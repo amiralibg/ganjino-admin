@@ -113,8 +113,8 @@ Update `VITE_API_BASE_URL` if the API is hosted anywhere other than local develo
 
 ## Related Projects
 
-- Backend API: `../ganjino-backend`
-- Mobile app: `../ganjino-app`
+- Backend API: [github.com/amiralibg/ganjino-backend](https://github.com/amiralibg/ganjino-backend)
+- Mobile app: [github.com/amiralibg/ganjino-app](https://github.com/amiralibg/ganjino-app)
 
 ## Contributing
 
