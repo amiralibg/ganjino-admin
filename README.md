@@ -1,23 +1,53 @@
 # Ganjino Admin Dashboard
 
-Admin web dashboard for operational visibility and account management.
+Web-based operations console for Ganjino (گنجینو). This project provides admin and super admin access to user management, platform health visibility, and security-focused account actions through a React and Vite interface.
 
-## Features (MVP)
+## Highlights
 
-- Shadcn-style reusable UI component structure under `src/components/ui`
-- Light/Dark mode toggle with persisted theme preference
-- React Query for all reads/mutations with cache invalidation
-- Admin authentication using existing `/api/auth/signin` and token refresh flow
-- Dashboard summary cards for users, goals, and active sessions
-- User management table with search + pagination
-- User actions: activate/deactivate and promote to admin
-- User detail panel with active sessions and goal/session stats
-- Security insights panel for suspicious sessions and recent login stats
-- Role-aware actions:
-  - `super_admin`: can promote users and toggle user status
-  - `admin`: read-only for sensitive user role/status actions
+- Admin sign-in using the shared backend authentication flow
+- Role-aware permissions for `admin` and `super_admin`
+- Dashboard statistics for users, goals, and sessions
+- Filterable and paginated user management table
+- User detail panel with activity and session context
+- Security insights view for suspicious sessions and recent login activity
+- Theme toggle with persisted light and dark mode support
 
-## Setup
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite
+- TanStack Query
+- Axios
+- Tailwind CSS 4
+- Lightweight reusable UI primitives under `src/components/ui`
+
+## Project Structure
+
+```text
+.
+├── src/
+│   ├── components/
+│   │   ├── ui/          # Shared UI building blocks
+│   │   └── theme-toggle.tsx
+│   ├── lib/             # API client, types, and utilities
+│   ├── App.tsx          # Main dashboard application
+│   ├── main.tsx         # React bootstrap
+│   └── globals.css      # Global styles
+├── .env.example
+├── package.json
+├── vite.config.ts
+└── README.md
+```
+
+## Prerequisites
+
+- Node.js 18 or newer
+- npm 9 or newer
+- A running instance of the Ganjino backend API
+- An account with `admin` or `super_admin` role in the backend
+
+## Getting Started
 
 1. Install dependencies:
 
@@ -25,21 +55,76 @@ Admin web dashboard for operational visibility and account management.
 npm install
 ```
 
-2. Create environment file:
+If you prefer pnpm, a lockfile is included and `pnpm install` will also work.
+
+2. Create a local environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-3. Update `VITE_API_BASE_URL` if backend is not on `http://localhost:3000/api`.
+3. Set the backend API base URL:
 
-4. Run:
+```env
+VITE_API_BASE_URL=http://localhost:3000/api
+```
+
+4. Start the dev server:
 
 ```bash
 npm run dev
 ```
 
-## Notes
+By default, Vite will print the local URL in the terminal after startup.
 
-- This project assumes backend CORS allows the admin app origin.
-- This dashboard is intentionally scoped as Phase 3 MVP and should be extended with charts, audit logs, and exports for release hardening.
+## Available Scripts
+
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run typecheck
+```
+
+## Permission Model
+
+- `super_admin`: can manage user status and role changes
+- `admin`: can access dashboards and read operational data, but cannot perform privileged user mutations
+
+The UI enforces this in the client, and the backend should still be treated as the source of truth for authorization.
+
+## Backend Dependencies
+
+This project expects the backend API to provide:
+
+- Auth endpoints for sign-in, token refresh, and current user lookup
+- Admin stats endpoints
+- Filterable user listing endpoints
+- User detail and security insight endpoints
+- User activation and role management endpoints for privileged accounts
+
+Update `VITE_API_BASE_URL` if the API is hosted anywhere other than local development defaults.
+
+## Development Notes
+
+- The main application state and views are currently composed in `src/App.tsx`.
+- Shared request helpers and token storage live in `src/lib/api.ts`.
+- Shared data contracts are defined in `src/lib/types.ts`.
+
+## Related Projects
+
+- Backend API: `../ganjino-backend`
+- Mobile app: `../ganjino-app`
+
+## Contributing
+
+Useful contributions usually include:
+
+- Clear notes about affected admin workflows
+- Screenshots for dashboard UI changes
+- Confirmation that backend endpoint changes are coordinated
+- Passing `build` and `typecheck` results
+
+## License
+
+No license file is currently included in this repository. Add one before publishing the project as open source.
